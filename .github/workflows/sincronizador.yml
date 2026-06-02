@@ -1,0 +1,38 @@
+name: Sincronización Automática del DOF y Cámara
+
+# Programamos el robot para que corra todos los días a las 6:00 AM (Hora Centro de México)
+on:
+  schedule:
+    - cron: '0 12 * * *' 
+  workflow_dispatch: # Esto te permite picar un botón y forzar la actualización cuando tú quieras
+
+jobs:
+  actualizar-base-datos:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Copia los archivos de tu proyecto en el servidor temporal de GitHub
+    - name: Descargar repositorio actual
+      uses: actions/checkout@v4
+
+    # 2. Instala Node.js para poder correr el Scraper
+    - name: Configurar Entorno de Ejecución
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    # 3. Instala Puppeteer y las dependencias del navegador invisible
+    - name: Instalar Extractor Automático
+      run: npm install puppeteer
+
+    # 4. Ejecuta el script extractor que programamos arriba
+    - name: Ejecutar Rastreo Oficial
+      run: node scraper.js
+
+    # 5. Si el script cambió el archivo base-datos.js, este paso hace el "Commit" y lo sube a tu web solo
+    - name: Guardar y Desplegar Cambios en la Red
+      run: |
+        git config --global user.name 'Sincronizador Automático'
+        git config --global user.email 'bot@derechomexicano.com'
+        git add base-datos.js
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Sincronización diaria oficial: $(date +'%Y-%m-%d')" && git push)
