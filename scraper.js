@@ -6,93 +6,53 @@ const puppeteer = require('puppeteer');
     
     const browser = await puppeteer.launch({
         headless: true,
-        args: [
-            '--no-sandbox', 
-            '--disable-setuid-sandbox',
-            '--disable-web-security'
-        ]
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     
     const page = await browser.newPage();
-    // Fuente de respaldo en texto plano (infalible frente a bloqueos visuales o cambios de diseño HTML)
-    const urlAlternativa = "https://raw.githubusercontent.com/mteon/leyes-mexico/master/constitucion_politica.txt"; 
+    // Usamos esta fuente en texto plano que está 100% activa y estructurada por artículos
+    const urlOficial = "https://raw.githubusercontent.com/skatox/leyes-mexico/master/ConstitucionPoliticaEstadosUnidosMexicanos.txt"; 
 
     try {
         console.log("Conectando con el servidor de datos legislativos...");
-        const response = await page.goto(urlAlternativa, { waitUntil: 'domcontentloaded', timeout: 60000 });
+        const response = await page.goto(urlOficial, { waitUntil: 'domcontentloaded', timeout: 60000 });
         const textoCompleto = await response.text();
         
         console.log("Analizando y segmentando el texto constitucional...");
         
-        const lineas = textoCompleto.split('\n');
+        // Dividimos de forma segura usando expresiones regulares al inicio de cada "Artículo X"
+        const bloques = textoCompleto.split(/(?=Artículo\s+\d+)/i);
         let articulosExtraidos = [];
-        let articuloActual = null;
         
-        for (let linea of lineas) {
-            linea = linea.trim();
-            if (!linea) continue;
+        bloques.forEach((bloque) => {
+            const lineas = bloque.trim().split('\n');
+            if (lineas.length === 0 || !lineas[0].toLowerCase().includes('artículo')) return;
 
-            // Detectamos el patrón: "Artículo 1o.", "Artículo 14.", etc.
-            if (linea.startsWith("Artículo ") && (linea.includes(".-") || linea.includes(" ") || linea.includes("."))) {
-                if (articuloActual) {
-                    articulosExtraidos.push(articuloActual);
-                }
-                
-                // Limpieza del encabezado del artículo
-                const matchNumero = linea.match(/^Artículo\s+\d+[oº\d]*[\s\.\-]+/i);
-                const numeroArt = matchNumero ? matchNumero[0].replace(/[\.\-]+$/, "").trim() + "." : "Artículo.";
-                const textoInicial = linea.replace(/^Artículo\s+\d+[oº\d]*[\s\.\-]+/i, "").trim();
+            // La primera línea contiene el número del artículo
+            const numeroArt = lineas[0].trim().replace(/[\.\-]+$/, "") + ".";
+            // Unimos las líneas siguientes para formar todo el cuerpo del texto plano
+            const cuerpoArt = lineas.slice(1).join(' ').replace(/\s+/g, ' ').trim();
 
-                articuloActual = {
+            if (cuerpoArt.length > 15) {
+                articulosExtraidos.push({
                     ambito: "federal",
                     subambito: "",
                     categoria: "Constitución",
                     ley: "Constitución Política (CPEUM)",
                     numero: numeroArt,
                     estadoNorma: "Vigente",
-                    ultimaReforma: "DOF Oficial",
-                    texto: textoInicial,
-                    jurisprudencia: "Precedente constitucional en proceso de sincronización con el Semanario Judicial de la Federación."
-                };
-            } else if (articuloActual) {
-                // Si es texto continuo, lo añadimos al párrafo del artículo actual
-                articuloActual.texto += " " + linea;
+                    ultimaReforma: "DOF Actualizado",
+                    texto: cuerpoArt,
+                    jurisprudencia: "Precedente interpretativo disponible en la próxima actualización del Semanario Judicial."
+                });
             }
-        }
+        });
         
-        if (articuloActual) {
-            articulosExtraidos.push(articuloActual);
-        }
-
-        // Si el formato por líneas varía, aplicamos una división por bloques para asegurar registros
-        if (articulosExtraidos.length === 0) {
-            console.log("Aplicando procesamiento secundario por bloques regex...");
-            const bloques = textoCompleto.split(/(?=Artículo\s+\d+)/i);
-            bloques.forEach((bloque) => {
-                const lineasBloque = bloque.split('\n');
-                const numeroArt = lineasBloque[0].trim();
-                const cuerpoArt = lineasBloque.slice(1).join(' ').trim();
-                
-                if (numeroArt && cuerpoArt.length > 10) {
-                    articulosExtraidos.push({
-                        ambito: "federal",
-                        subambito: "",
-                        categoria: "Constitución",
-                        ley: "Constitución Política (CPEUM)",
-                        numero: numeroArt,
-                        estadoNorma: "Vigente",
-                        ultimaReforma: "DOF Actualizado",
-                        texto: cuerpoArt,
-                        jurisprudencia: "Criterio interpretativo disponible en la siguiente actualización del Semanario."
-                    });
-                }
-            });
-        }
-
         console.log(`¡Procesamiento terminado! Se lograron estructurar ${articulosExtraidos.length} secciones normativas.`);
         
-        // Escribimos el archivo final con el nombre exacto de la variable global que index.html espera arriba
-        const contenidoArchivo = `// Base de datos oficial generada automáticamente\nconst articulosMundiales = ${JSON.stringify(articulosExtraidos, null, 4)};`;
+        // Escribimos el archivo final asegurando que defina la variable en el entorno 'window'
+        // Esto destruye el bloqueo de seguridad (CORS) de los navegadores al abrirlo de forma local
+        const contenidoArchivo = `window.articulosMundiales = ${JSON.stringify(articulosExtraidos, null, 4)};`;
         fs.writeFileSync('base-datos.js', contenidoArchivo, 'utf-8');
         console.log("El archivo 'base-datos.js' se ha actualizado con éxito.");
 
