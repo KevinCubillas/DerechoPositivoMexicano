@@ -198,41 +198,7 @@
 
     <script>
         // 1. BASE DE DATOS INTEGRADA DIRECTAMENTE AQUÍ PARA EVITAR ERRORES DE CARGA LOCAL
-        const SampleArticulosMundiales = [
-            {
-                ambito: "federal",
-                subambito: "",
-                categoria: "Constitución",
-                ley: "Constitución Política (CPEUM)",
-                numero: "Artículo 1o.",
-                estadoNorma: "Vigente",
-                ultimaReforma: "Ref. DOF 2011",
-                texto: "En los Estados Unidos Mexicanos todas las personas gozarán de los derechos humanos reconocidos en esta Constitución y en los tratados internacionales de los que el Estado Mexicano sea parte, así como de las garantías para su protección, cuyo ejercicio no podrá restringirse ni suspenderse...",
-                jurisprudencia: "Contradicción de Tesis 293/2011 (Pleno SCJN): Los derechos humanos de fuente internacional y rango constitucional forman un mismo bloque de constitucionalidad."
-            },
-            {
-                ambito: "federal",
-                subambito: "",
-                categoria: "Constitución",
-                ley: "Constitución Política (CPEUM)",
-                numero: "Artículo 14.",
-                estadoNorma: "Vigente",
-                ultimaReforma: "Texto Original",
-                texto: "A ninguna ley se dará efecto retroactivo en perjuicio de persona alguna. Nadie podrá ser privado de la libertad o de sus propiedades, posesiones o derechos, sino mediante juicio seguido ante los tribunales previamente establecidos...",
-                jurisprudencia: "Jurisprudencia (SCJN): Las formalidades esenciales del procedimiento constituyen el núcleo duro de la garantía de audiencia."
-            },
-            {
-                ambito: "federal",
-                subambito: "",
-                categoria: "Constitución",
-                ley: "Constitución Política (CPEUM)",
-                numero: "Artículo 16.",
-                estadoNorma: "Vigente",
-                ultimaReforma: "Ref. DOF 2019",
-                texto: "Nadie puede ser molestado en su persona, familia, domicilio, papeles o posesiones, sino en virtud de mandamiento escrito de la autoridad competente, que funde y motive la causa legal del procedimiento...",
-                jurisprudencia: "Tesis Jurisprudencial (Primera Sala): Control de detención en flagrancia. Cualquier captura que viole los parámetros obligatorios genera invalidez."
-            }
-        ];
+const SampleArticulosMundiales = typeof articulosMundiales !== 'undefined' ? articulosMundiales : [];
 
         // 2. CONFIGURACIÓN DE MENÚS DESPLEGABLES
         const estadosMexico = ["Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua", "Ciudad de México", "Coahuila", "Colima", "Durango", "Estado de México", "Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas"].sort((a, b) => a.localeCompare(b));
