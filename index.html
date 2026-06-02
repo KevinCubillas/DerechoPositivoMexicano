@@ -224,11 +224,9 @@
             ];
         }
 
-        // Determinar qué fuente usar de forma segura
-        const datosFinales = (typeof articulosMundiales !== 'undefined' && articulosMundiales.length > 0) 
-            ? articulosMundiales 
+        const datosFinales = (window.articulosMundiales && window.articulosMundiales.length > 0) 
+            ? window.articulosMundiales 
             : articlesMundialesBackup;
-
         const estadosMexico = ["Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua", "Ciudad de México", "Coahuila", "Colima", "Durango", "Estado de México", "Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas"].sort((a, b) => a.localeCompare(b));
         
         const categoriesPorAmbito = {
