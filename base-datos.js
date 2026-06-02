@@ -1,8 +1,8 @@
-// Base de datos oficial para la plataforma de Derecho Positivo Mexicano
+// Base de datos oficial expandida: Derecho Positivo Mexicano
 const articulosMundiales = [
-    // ==========================================
-    // ORDENAMIENTO FEDERAL: CONSTITUCIÓN (CPEUM)
-    // ==========================================
+    // =========================================================================
+    // 1. ORDENAMIENTO FEDERAL: CONSTITUCIÓN (CPEUM)
+    // =========================================================================
     {
         ambito: "federal",
         categoria: "Constitución",
@@ -10,8 +10,8 @@ const articulosMundiales = [
         numero: "Artículo 1o. [Derechos Humanos y sus Garantías]",
         estadoNorma: "Vigente",
         ultimaReforma: "Ref. 2011",
-        texto: "En los Estados Unidos Mexicanos todas las personas gozarán de los derechos humanos reconocidos en esta Constitución y en los tratados internacionales de los que el Estado Mexicano sea parte, así como de las garantías para su protección, cuyo ejercicio no podrá restringirse ni suspenderse, salvo en los casos y bajo las condiciones que esta Constitución establece...",
-        jurisprudencia: "Contradicción de Tesis 293/2011 (Pleno de la SCJN): Determina que los derechos humanos de fuente internacional y constitucional integran un mismo bloque de constitucionalidad, pero cuando en la Constitución haya una restricción expresa al ejercicio de un derecho, se debe estar a lo que manda el texto constitucional."
+        texto: "En los Estados Unidos Mexicanos todas las personas gozarán de los derechos humanos reconocidos en esta Constitución y en los tratados internacionales de los que el Estado Mexicano sea parte...",
+        jurisprudencia: "Contradicción de Tesis 293/2011 (Pleno de la SCJN): Los derechos humanos de fuente internacional y constitucional integran un mismo bloque de constitucionalidad. Si existe una restricción expresa en la CPEUM, se debe estar a lo que mande el texto constitucional."
     },
     {
         ambito: "federal",
@@ -20,8 +20,8 @@ const articulosMundiales = [
         numero: "Artículo 27. [Propiedad Originaria y Derecho Agrario]",
         estadoNorma: "Vigente",
         ultimaReforma: "Ref. 1992",
-        texto: "La propiedad de las tierras y aguas comprendidas dentro de los límites del territorio nacional, corresponde originariamente a la Nación, la cual ha tenido y tiene el derecho de transmitir el dominio de ellas a los particulares, constituyendo la propiedad privada... Se reconoce la personalidad jurídica de los núcleos de población ejidales y comunales y se protege su propiedad sobre la tierra...",
-        jurisprudencia: "Precedente Segunda Sala SCJN: La protección del derecho agrario e inmobiliario ejidal es de orden público e interés social. Los juicios ante los Tribunales Agrarios deben garantizar la suplencia de la queja a favor de ejidatarios y comuneros."
+        texto: "La propiedad de las tierras y aguas comprendidas dentro de los límites del territorio nacional, corresponde originariamente a la Nación... Se reconoce la personalidad jurídica de los núcleos de población ejidales y comunales y se protege su propiedad sobre la tierra...",
+        jurisprudencia: "Segunda Sala SCJN: La protección al patrimonio ejidal es de orden público. Procede la suplencia de la queja deficiente en favor de ejidatarios y comuneros de manera amplia en los juicios agrarios."
     },
     {
         ambito: "federal",
@@ -30,42 +30,75 @@ const articulosMundiales = [
         numero: "Artículo 123. [Derecho al Trabajo]",
         estadoNorma: "Vigente",
         ultimaReforma: "Ref. 2017",
-        texto: "Toda persona tiene derecho al trabajo digno y socialmente útil; al efecto, se promoverán la creación de empleos y la organización social de trabajo, conforme a la ley. El Congreso de la Unión, sin contravenir a las bases siguientes deberá expedir leyes sobre el trabajo, las cuales regirán entre los obreros, jornaleros, empleados domésticos, artesanos y de una manera general, todo contrato de trabajo...",
-        jurisprudencia: "Tesis Jurisprudencial (Segunda Sala): La reforma constitucional de 2017 extinguió las Juntas de Conciliación y Arbitraje para transitar al nuevo modelo de Tribunales Laborales del Poder Judicial, exigiendo la conciliación prejudicial obligatoria como requisito de procedibilidad."
+        texto: "Toda persona tiene derecho al trabajo digno y socialmente útil... El Congreso de la Unión deberá expedir leyes sobre el trabajo, las cuales regirán entre los obreros, jornaleros, empleados domésticos, artesanos y de una manera general, todo contrato de trabajo...",
+        jurisprudencia: "Jurisprudencia SCJN (2017): La transición al nuevo modelo de justicia laboral extingue las Juntas de Conciliación y traslada la facultad jurisdiccional a los Tribunales Laborales del Poder Judicial, priorizando la instancia conciliatoria prejudicial."
     },
 
-    // ==========================================
-    // ORDENAMIENTO FEDERAL: LEYES FEDERALES
-    // ==========================================
+    // =========================================================================
+    // 2. ORDENAMIENTO FEDERAL: LEYES GENERALES / MARCO (NUEVAS INCLUSIONES)
+    // =========================================================================
+    {
+        ambito: "federal",
+        categoria: "Leyes Generales / Marco",
+        ley: "Ley General de Víctimas",
+        numero: "Artículo 5. [Principios Rectores]",
+        estadoNorma: "Vigente",
+        ultimaReforma: "Ref. 2023",
+        texto: "Esta ley se aplicará de conformidad con los principios de dignidad, buena fe, enfoque diferencial y especializado, máxima protección, no criminalización y victimización secundaria...",
+        jurisprudencia: "Criterio de Tribunales Colegiados: El principio de máxima protección obliga a las autoridades a aplicar la interpretación más amplia que favorezca la reparación integral del daño de la víctima."
+    },
+
+    // =========================================================================
+    // 3. ORDENAMIENTO FEDERAL: LEYES FEDERALES (AMPARO, TRABAJO, AGRARIA)
+    // =========================================================================
+    {
+        ambito: "federal",
+        categoria: "Leyes Federales",
+        ley: "Ley de Amparo",
+        numero: "Artículo 107. [Amparo Indirecto]",
+        estadoNorma: "Vigente",
+        ultimaReforma: "Ref. 2024",
+        texto: "El amparo indirecto procede: I. Contra normas generales que por su sola entrada en vigor o con motivo del primer acto de su aplicación causen perjuicio al quejoso; II. Contra actos u omisiones que provengan de autoridades distintas de los tribunales judiciales, administrativos o del trabajo...",
+        jurisprudencia: "Pleno de la SCJN: Interés Legítimo en el Amparo Indirecto. Requiere de una afectación jurídica indirecta pero real, derivada de una especial situación que el quejoso ocupa en el ordenamiento jurídico respecto al ecosistema o derechos difusos."
+    },
     {
         ambito: "federal",
         categoria: "Leyes Federales",
         ley: "Ley Federal del Trabajo",
-        numero: "Artículo 5o. [Estipulaciones Prohibidas]",
+        numero: "Artículo 5o. [Estipulaciones Prohibidas e Irrenunciabilidad]",
         estadoNorma: "Vigente",
         ultimaReforma: "Ref. 2024",
-        texto: "Las disposiciones de esta Ley son de orden público por lo que no producirá efecto legal, ni impedirá el goce y el ejercicio de los derechos, sea escrita o verbal, la estipulación que establezca: una jornada mayor que la permitida por esta ley, jornadas inhumanas, un salario inferior al mínimo, o la renuncia de cualquier derecho laboral.",
-        jurisprudencia: "Criterio de los Tribunales Colegiados: Principio de Irrenunciabilidad de Derechos Laborales. Cualquier convenio liquidatorio que vulnere los mínimos de ley del trabajador es nulo de pleno derecho, sin importar que haya sido firmado ante autoridad jurisdiccional."
+        texto: "Las disposiciones de esta Ley son de orden público por lo que no producirá efecto legal... la estipulación que establezca: una jornada mayor que la permitida, una jornada inhumana, un salario inferior al mínimo o la renuncia de cualquier derecho...",
+        jurisprudencia: "Tesis de Segunda Sala: El principio de irrenunciabilidad implica que cualquier convenio de liquidación o renuncia que contenga una cláusula lesiva a los derechos mínimos del trabajador carece de validez legal."
     },
-
-    // ==========================================
-    // ORDENAMIENTOS ESTATALES (EJEMPLOS DE ESTADOS)
-    // ==========================================
     {
-        ambito: "estatal",
-        subambito: "Ciudad de México",
-        categoria: "Constitución Local",
-        ley: "Constitución Política del Estado", // Mapeado al selector de la app
-        numero: "Artículo 3o. [De los Principios Rectores en la CDMX]",
+        ambito: "federal",
+        categoria: "Leyes Federales",
+        ley: "Ley Agraria",
+        numero: "Artículo 14. [Calidad de Ejidatario]",
         estadoNorma: "Vigente",
-        ultimaReforma: "Texto Original",
-        texto: "La Ciudad de México adopta para su régimen interior la forma de gobierno republicano, representativo, democrático y laico. La soberanía reside esencialmente en su pueblo y todo poder público dimana de este.",
-        jurisprudencia: "Acción de Inconstitucionalidad (SCJN): Las constituciones locales pueden ampliar el catálogo de derechos humanos, siempre y cuando no contravengan ni reduzcan los estándares fijados en la CPEUM."
+        ultimaReforma: "Ref. 2022",
+        texto: "La calidad de ejidatario se acredita: I. Con el certificado de derechos agrarios expedido por la autoridad competente; II. Con el certificado de derechos sobre tierras ejidales; o III. Con la sentencia o resolución relativa del Tribunal Agrario.",
+        jurisprudencia: "Tribunales Colegiados en Materia Administrativa: La posesión material de una parcela ejidal no otorga por sí misma la calidad jurídica de ejidatario, requiriéndose forzosamente el reconocimiento de la Asamblea o la resolución judicial del Tribunal de la materia."
     },
 
-    // ==========================================
-    // TRATADOS INTERNACIONALES (DERECHOS HUMANOS)
-    // ==========================================
+    // =========================================================================
+    // 4. ORDENAMIENTO FEDERAL: CÓDIGOS FEDERALES (NUEVO CÓDIGO NACIONAL NACIONAL)
+    // =========================================================================
+    {
+        ambito: "federal",
+        categoria: "Códigos Federales",
+        ley: "Código Nacional de Procedimientos Civiles y Familiares",
+        numero: "Artículo 2. [Principios del Procedimiento Oral]",
+        estadoNorma: "Vigente",
+        ultimaReforma: "Texto Unificado",
+        texto: "El procedimiento civil y de justicia familiar se regirá bajo los principios de oralidad, inmediación, contradicción, concentración, continuidad, publicidad, perspectiva de género y el interés superior de la infancia.",
+        jurisprudencia: "Primera Sala SCJN: El principio de inmediación exige de forma obligatoria e insustituible la presencia física y activa del juez en las audiencias orales; su ausencia produce la nulidad absoluta de todo lo actuado."
+    },
+
+    // =========================================================================
+    // 5. TRATADOS INTERNACIONALES (DERECHOS HUMANOS Y TRABAJO)
+    // =========================================================================
     {
         ambito: "internacional",
         categoria: "Derechos Humanos",
@@ -73,17 +106,17 @@ const articulosMundiales = [
         numero: "Artículo 8. [Garantías Judiciales]",
         estadoNorma: "Vigente",
         ultimaReforma: "Ratificado '81",
-        texto: "Toda persona tiene derecho a ser oída, con las debidas garantías y dentro de un plazo razonable, por un juez o tribunal competente, independiente e imparcial, establecido con anterioridad por la ley, en la sustanciación de cualquier acusación penal formulada contra ella, o para la determinación de sus derechos y obligaciones de orden civil, laboral, fiscal o de cualquier otro carácter.",
-        jurisprudencia: "Caso Radilla Pacheco vs. México (Corte IDH): Establece la obligatoriedad del control de convencionalidad ex officio para todas las autoridades judiciales del Estado Mexicano, debiendo armonizar las leyes internas con el Pacto de San José."
+        texto: "Toda persona tiene derecho a ser oída, con las debidas garantías y dentro de un plazo razonable, por un juez o tribunal competente, independiente e imparcial, establecido con anterioridad por la ley...",
+        jurisprudencia: "Corte IDH (Caso Radilla Pacheco): El control de convencionalidad vincula a todos los jueces mexicanos; estos deben contrastar las leyes domésticas con el Pacto de San José para inaplicar aquellas que vulneren los derechos humanos internacionales."
     },
     {
         ambito: "internacional",
         categoria: "Derecho Laboral / Social",
         ley: "Convenio 87 de la OIT (Libertad Sindical)",
-        numero: "Artículo 2. [Derecho de Sindicación]",
+        numero: "Artículo 2. [Derecho de Sindicación Autónoma]",
         estadoNorma: "Vigente",
         ultimaReforma: "Ratificado '50",
-        texto: "Los trabajadores y los empleadores, sin ninguna distinción y sin autorización previa, tienen el derecho de constituir las organizaciones que estimen convenientes, así como el de afiliarse a estas organizaciones, con la sola condición de observar los estatutos de las mismas.",
-        jurisprudencia: "Tesis de Segunda Sala: El derecho a la libre sindicación ampara tanto la libertad positiva (asociarse) como la negativa (no asociarse o renunciar al sindicato), declarando inconstitucionales las antiguas cláusulas de exclusión por separación."
+        texto: "Los trabajadores y los empleadores, sin ninguna distinción y sin autorización previa, tienen el derecho de constituir las organizaciones que estimen convenientes, así como el de afiliarse a estas organizaciones...",
+        jurisprudencia: "Segunda Sala SCJN: La libertad sindical contempla tanto la vertiente positiva de libre asociación como la negativa, lo que significa que nadie puede ser coaccionado u obligado a formar parte de un sindicato para conservar su empleo."
     }
 ];
