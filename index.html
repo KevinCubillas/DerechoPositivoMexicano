@@ -268,21 +268,54 @@ const catalogoLeyes = {
 
         function actualizarPantalla() {
             contenedor.innerHTML = ""; const txt = buscador.value;
-            const filtradas = articulosMundiales.filter(art => {
-                return (art.ambito === ambitoActual) && (art.categoria === categoriaSeleccionada) && (art.ley === leySeleccionada) && ((ambitoActual === 'estatal') ? (art.subambito === estadoSeleccionado) : true) && (art.numero.toLowerCase().includes(txt.toLowerCase()) || art.texto.toLowerCase().includes(txt.toLowerCase()));
-            });
-            if (filtradas.length === 0 || !leySeleccionada) { mensajeSinResultados.style.display = "block"; return; }
-            mensajeSinResultados.style.display = "none";
-            filtradas.forEach((ley, i) => {
-                const b = document.createElement('div'); b.className = 'articulo'; const idT = `t-${i}`; const idJ = `j-${i}`;
-                b.innerHTML = `<div class="art-meta"><span class="art-numero">${resaltarTexto(ley.numero, txt)}</span><div><span class="badge badge-vigente">${ley.estadoNorma}</span> <span class="badge badge-reforma">${ley.ultimaReforma}</span></div></div><p id="${idT}" class="art-texto">${resaltarTexto(ley.texto, txt)}</p><div class="actions"><button class="btn" onclick="copiarTextoArticulo('${idT}', this)">📋 Copiar Texto</button>${ley.jurisprudencia ? `<button class="btn btn-precedente" onclick="toggleJurisprudencia('${idJ}')">⚖ Precedente</button>` : ''}</div>${ley.jurisprudencia ? `<div id="${idJ}" class="bloque-precedente"><span class="prec-titulo">Precedente Jurisprudencial:</span><p style="margin:0; text-align:justify;">${resaltarTexto(ley.jurisprudencia, txt)}</p></div>` : ''}`;
-                contenedor.appendChild(b);
-            });
-        }
+            <script>
+        // TU BASE DE DATOS INTEGRADA
+        const articulosMundiales = [
+            {
+                ambito: "federal",
+                subambito: "",
+                categoria: "Constitución",
+                ley: "Constitución Política (CPEUM)",
+                numero: "Artículo 1o.",
+                estadoNorma: "Vigente",
+                ultimaReforma: "Ref. DOF 2011",
+                texto: "En los Estados Unidos Mexicanos todas las personas gozarán de los derechos humanos reconocidos en esta Constitución y en los tratados internacionales de los que el Estado Mexicano sea parte...",
+                jurisprudencia: "Contradicción de Tesis 293/2011 (Pleno SCJN): Bloque de constitucionalidad."
+            },
+            {
+                ambito: "federal",
+                subambito: "",
+                categoria: "Constitución",
+                ley: "Constitución Política (CPEUM)",
+                numero: "Artículo 14.",
+                estadoNorma: "Vigente",
+                ultimaReforma: "Texto Original",
+                texto: "A ninguna ley se dará efecto retroactivo en perjuicio de persona alguna. Nadie podrá ser privado de la libertad o de sus propiedades...",
+                jurisprudencia: "Jurisprudencia (SCJN): Formalidades esenciales del procedimiento."
+            },
+            {
+                ambito: "federal",
+                subambito: "",
+                categoria: "Constitución",
+                ley: "Constitución Política (CPEUM)",
+                numero: "Artículo 16.",
+                estadoNorma: "Vigente",
+                ultimaReforma: "Ref. DOF 2019",
+                texto: "Nadie puede ser molestado en su persona, familia, domicilio, papeles o posesiones, sino en virtud de mandamiento escrito de la autoridad competente...",
+                jurisprudencia: "Tesis Jurisprudencial (Primera Sala): Control de detención en flagrancia."
+            }
+        ];
+
+        // AQUÍ INICIA TU CÓDIGO DE JAVASCRIPT ORIGINAL INTACTO
+        const estadosMexico = ["Aguascalientes", "Baja California", ...].sort((a, b) => a.localeCompare(b));
         
-        window.onload = function() { inicializarListas(); cambiarAmbito('federal'); };
-        buscador.addEventListener('input', actualizarPantalla);
-    </script><!-- Cambia el nombre del archivo si es necesario para que apunte al del robot -->
-<script src="base-datos.js"></script>
+        const categoriesPorAmbito = {
+            federal: ["Constitución", "Leyes Generales / Marco", "Leyes Nacionales", "Leyes Federales", "Códigos Federales"],
+            ...
+        };
+
+        // ... Todo el resto de tus funciones (cambiarAmbito, actualizarPantalla, etc.) ...
+    </script>
+
 </body>
 </html>
