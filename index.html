@@ -27,16 +27,7 @@
             padding: 40px 20px;
             box-sizing: border-box;
             background-color: var(--gris-fondo);
-
-            background-image: 
-                linear-gradient(to right, rgba(226, 232, 240, 0.88), rgba(226, 232, 240, 0.88)),
-                url("fondo-justicia.jpg"), 
-                url("fondo-justicia.jpg");
-            background-position: center, left center, right center;
-            background-repeat: no-repeat, no-repeat, no-repeat;
-            background-size: 100% 100%, 32% auto, 32% auto;
-            background-attachment: fixed, fixed, fixed;
-            background-blend-mode: normal, luminosity, luminosity;
+            background-image: linear-gradient(to right, rgba(226, 232, 240, 0.88), rgba(226, 232, 240, 0.88));
         }
 
         .app-card { 
@@ -111,10 +102,6 @@
             cursor: pointer; 
             transition: all 0.2s; 
         }
-        select:focus, input[type="text"]:focus { 
-            border-color: var(--azul-acento); 
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.1); 
-        }
         
         .caja-busqueda { 
             width: 100%; 
@@ -132,26 +119,27 @@
             border: 1px solid var(--gris-borde); 
             border-left: 5px solid var(--azul-primario); 
             margin-bottom: 20px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.01); 
         }
         .art-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
         .art-numero { font-size: 17px; font-weight: 700; color: var(--azul-primario); }
         .badge { font-size: 10px; padding: 4px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase; }
         .badge-vigente { background-color: #e2fbf0; color: #10b981; border: 1px solid #a7f3d0; }
+        .badge-reforma { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
         .art-texto { text-align: justify; margin: 0 0 15px 0; color: #334155; font-size: 15.5px; }
         
         .actions { display: flex; gap: 10px; }
-        .btn { padding: 8px 16px; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1px solid var(--gris-borde); background-color: #f8fafc; transition: all 0.2s; }
-        .btn:hover { background-color: #f1f5f9; border-color: #cbd5e1; }
+        .btn { padding: 8px 16px; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1px solid var(--gris-borde); background-color: #f8fafc; }
         .btn-precedente { color: var(--dorado); border-color: #fde68a; background-color: #fef3c7; }
-        .btn-precedente:hover { background-color: #fde68a; }
         
-        .bloque-precedente { display: none; margin-top: 15px; padding: 18px; background-color: #fffbeb; border: 1px dashed #f59e0b; border-radius: 8px; font-size: 14px; color: #78350f; line-height: 1.5; }
-        .prec-titulo { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--dorado); display: block; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .bloque-precedente { display: none; margin-top: 15px; padding: 18px; background-color: #fffbeb; border: 1px dashed #f59e0b; border-radius: 8px; font-size: 14px; color: #78350f; }
+        .prec-titulo { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--dorado); display: block; margin-bottom: 8px; }
         
         mark { background-color: #fde047; color: #000; border-radius: 2px; }
         #sin-resultados { text-align: center; color: #94a3b8; padding: 30px; display: none; font-weight: bold; }
     </style>
+    
+    <!-- Intentamos cargar el archivo externo, si falla por CORS, el script de abajo lo rescata -->
+    <script src="base-datos.js"></script>
 </head>
 <body>
 
@@ -159,11 +147,11 @@
         <div class="header">
             <h1>Derecho Positivo Mexicano</h1>
             <p class="descripcion-plataforma">
-                Plataforma de consulta, análisis y control del marco normativo nacional. Este sistema centraliza la jerarquía jurídica de los ordenamientos del Estado Mexicano, permitiendo la exploración de textos de vigencia oficial vinculados de forma directa con los criterios interpretativos y precedentes jurisprudenciales relevantes.
+                Plataforma de consulta, análisis y control del marco normativo nacional.
             </p>
             <div class="barra-sincronizacion">
-                <div class="indicador-activo"><span class="punto-verde"></span> Canales de Sincronización Listos</div>
-                <div>Base de Datos Integrada</div>
+                <div class="indicador-activo"><span class="punto-verde"></span> Sistema Autónomo Estable</div>
+                <div>Modo de Respaldo Activo</div>
             </div>
         </div>
         
@@ -197,10 +185,50 @@
     </div>
 
     <script>
-        // 1. BASE DE DATOS INTEGRADA DIRECTAMENTE AQUÍ PARA EVITAR ERRORES DE CARGA LOCAL
-const SampleArticulosMundiales = typeof articulosMundiales !== 'undefined' ? articulosMundiales : [];
+        // SI LA VARIABLE GLOBAL EXTERNA NO EXISTE O ESTÁ VACÍA, INYECTAMOS ESTE RESPALDO DIRECTO
+        if (typeof articlesMundialesBackup === 'undefined') {
+            var articlesMundialesBackup = [
+                {
+                    ambito: "federal",
+                    subambito: "",
+                    categoria: "Constitución",
+                    ley: "Constitución Política (CPEUM)",
+                    numero: "Artículo 1o.",
+                    estadoNorma: "Vigente",
+                    ultimaReforma: "Ref. DOF 2011",
+                    texto: "En los Estados Unidos Mexicanos todas las personas gozarán de los derechos humanos reconocidos en esta Constitución y en los tratados internacionales de los que el Estado Mexicano sea parte...",
+                    jurisprudencia: "Contradicción de Tesis 293/2011 (Pleno SCJN): Bloque de constitucionalidad."
+                },
+                {
+                    ambito: "federal",
+                    subambito: "",
+                    categoria: "Constitución",
+                    ley: "Constitución Política (CPEUM)",
+                    numero: "Artículo 14.",
+                    estadoNorma: "Vigente",
+                    ultimaReforma: "Texto Original",
+                    texto: "A ninguna ley se dará efecto retroactivo en perjuicio de persona alguna. Nadie podrá ser privado de la libertad o de sus propiedades...",
+                    jurisprudencia: "Jurisprudencia (SCJN): Formalidades esenciales del procedimiento."
+                },
+                {
+                    ambito: "federal",
+                    subambito: "",
+                    categoria: "Constitución",
+                    ley: "Constitución Política (CPEUM)",
+                    numero: "Artículo 16.",
+                    estadoNorma: "Vigente",
+                    ultimaReforma: "Ref. DOF 2019",
+                    texto: "Nadie puede ser molestado en su persona, familia, domicilio, papeles o posesiones, sino en virtud de mandamiento escrito de la autoridad competente...",
+                    jurisprudencia: "Tesis Jurisprudencial (Primera Sala): Control de detención en flagrancia."
+                }
+            ];
+        }
 
-        // 2. CONFIGURACIÓN DE MENÚS DESPLEGABLES
+        // Determinar qué fuente usar de forma segura
+        const datosFinales = (typeof articulosMundiales !== 'undefined' && articulosMundiales.length > 0) 
+            ? articulosMundiales 
+            : articlesMundialesBackup;
+
         const estadosMexico = ["Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua", "Ciudad de México", "Coahuila", "Colima", "Durango", "Estado de México", "Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas"].sort((a, b) => a.localeCompare(b));
         
         const categoriesPorAmbito = {
@@ -239,9 +267,8 @@ const SampleArticulosMundiales = typeof articulosMundiales !== 'undefined' ? art
         const contenedor = document.getElementById('contenedor-leyes'); 
         const mensajeSinResultados = document.getElementById('sin-resultados');
 
-        // 3. FUNCIONES LÓGICAS DE LA APLICACIÓN
         function inicializarListas() { 
-            selectEstado.innerHTML = estadosMexico.map(e => `<option value="${e}">${e}</option>`).join(''); 
+            if(selectEstado) selectEstado.innerHTML = estadosMexico.map(e => `<option value="${e}">${e}</option>`).join(''); 
             cambiarAmbito('federal');
         }
         
@@ -276,9 +303,8 @@ const SampleArticulosMundiales = typeof articulosMundiales !== 'undefined' ? art
         
         function copiarTextoArticulo(id, btn) { 
             navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => { 
-                const old = btn.innerHTML; 
                 btn.innerHTML = "¡Copiado! ✓"; 
-                setTimeout(() => { btn.innerHTML = old; }, 1200); 
+                setTimeout(() => { btn.innerHTML = "Copiar Texto"; }, 1200); 
             }); 
         }
         
@@ -287,28 +313,17 @@ const SampleArticulosMundiales = typeof articulosMundiales !== 'undefined' ? art
             b.style.display = (b.style.display === "block") ? "none" : "block"; 
         }
 
-        // ESCUCHADOR DEL BUSCADOR EN VIVO
-        buscador.addEventListener('input', () => {
-            actualizarPantalla();
-        });
+        buscador.addEventListener('input', actualizarPantalla);
 
-        // 4. FUNCIÓN CORRECTA DE RENDERIZADO
         function actualizarPantalla() {
             contenedor.innerHTML = ""; 
             const queryText = buscador.value.toLowerCase().trim();
             
-            // Filtrar artículos por los menús desplegables seleccionados
-            const filtrados = SampleArticulosMundiales.filter(art => {
-                const coincideAmbito = art.ambito === ambitoActual;
-                const coincideCategoria = art.categoria === categoriaSeleccionada;
-                const coincideLey = art.ley === leySeleccionada;
-                
-                // Si hay texto en el buscador, buscar concordancia en número o texto
-                const coincideBusqueda = !queryText || 
-                    art.numero.toLowerCase().includes(queryText) || 
-                    art.texto.toLowerCase().includes(queryText);
-                
-                return coincideAmbito && coincideCategoria && coincideLey && coincideBusqueda;
+            const filtrados = datosFinales.filter(art => {
+                return art.ambito === ambitoActual && 
+                       art.categoria === categoriaSeleccionada && 
+                       art.ley === leySeleccionada &&
+                       (!queryText || art.numero.toLowerCase().includes(queryText) || art.texto.toLowerCase().includes(queryText));
             });
 
             if (filtrados.length === 0) {
@@ -318,16 +333,14 @@ const SampleArticulosMundiales = typeof articulosMundiales !== 'undefined' ? art
 
             mensajeSinResultados.style.display = "none";
 
-            // Crear y agregar las tarjetas HTML al contenedor de forma dinámica
             filtrados.forEach((art, idx) => {
                 const idUnico = `art-${idx}`;
                 const divArt = document.createElement('div');
                 divArt.className = 'articulo';
-                
                 divArt.innerHTML = `
                     <div class="art-meta">
                         <span class="art-numero">${art.numero}</span>
-                        <div style="display: flex; gap: 5px;">
+                        <div>
                             <span class="badge badge-vigente">${art.estadoNorma}</span>
                             <span class="badge badge-reforma">${art.ultimaReforma}</span>
                         </div>
@@ -335,7 +348,7 @@ const SampleArticulosMundiales = typeof articulosMundiales !== 'undefined' ? art
                     <p class="art-texto" id="texto-${idUnico}">${resaltarTexto(art.texto, queryText)}</p>
                     <div class="actions">
                         <button class="btn" onclick="copiarTextoArticulo('texto-${idUnico}', this)">Copiar Texto</button>
-                        <button class="btn btn-precedente" onclick="toggleJurisprudencia('prec-${idUnico}')">Ver Jurisprudencia / Criterio</button>
+                        <button class="btn btn-precedente" onclick="toggleJurisprudencia('prec-${idUnico}')">Ver Jurisprudencia</button>
                     </div>
                     <div class="bloque-precedente" id="prec-${idUnico}">
                         <span class="prec-titulo">Precedente Relevante:</span>
@@ -346,7 +359,6 @@ const SampleArticulosMundiales = typeof articulosMundiales !== 'undefined' ? art
             });
         }
 
-        // Iniciar la aplicación al cargar el documento por completo
         window.onload = inicializarListas;
     </script>
 </body>
