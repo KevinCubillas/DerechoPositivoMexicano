@@ -218,22 +218,30 @@
         const estadosMexico = ["Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua", "Ciudad de México", "Coahuila", "Colima", "Durango", "Estado de México", "Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas"].sort((a, b) => a.localeCompare(b));
         
         const categoriesPorAmbito = {
-            federal: ["Constitución", "Leyes Generales / Marco", "Leyes Nacionales", "Leyes Federales", "Códigos Federales"],
-            estatal: ["Constitución Local", "Códigos Locales", "Leyes Estatales"],
-            internacional: ["Derechos Humanos", "Derecho Laboral / Social", "Comercio e Internacional Privado"]
-        };
+    federal: ["Constitución", "Leyes Generales / Marco", "Leyes Nacionales", "Leyes Federales", "Códigos Federales"],
+    estatal: ["Constitución Local", "Códigos Locales", "Leyes Estatales"],
+    internacional: ["Derechos Humanos", "Derecho Laboral / Social", "Comercio e Internacional Privado"]
+};
 
-        const catalogoLeyes = {
-            federal: { 
-                "Constitución": ["Constitución Política (CPEUM)"], 
-                "Leyes Generales / Marco": ["Ley General de Víctimas"], 
-                "Leyes Nacionales": ["Código Nacional de Procedimientos Penales"], 
-                "Leyes Federales": ["Ley Federal del Trabajo"],
-                "Códigos Federales": ["Código Civil Federal", "Código Penal Federal"]
-            },
-            estatal: { "Constitución Local": ["Constitución Política del Estado"], "Códigos Locales": ["Código Civil Local"], "Leyes Estatales": ["Ley de Desarrollo Urbano"] },
-            internacional: { "Derechos Humanos": ["Convención Americana sobre DDHH (Pacto de San José)"], "Derecho Laboral / Social": ["Convenio 87 de la OIT (Libertad Sindical)"], "Comercio e Internacional Privado": ["T-MEC"] }
-        };
+const catalogoLeyes = {
+    federal: { 
+        "Constitución": ["Constitución Política (CPEUM)"], 
+        "Leyes Generales / Marco": ["Ley General de Víctimas"], 
+        "Leyes Nacionales": ["Código Nacional de Procedimientos Penales"], 
+        "Leyes Federales": ["Ley de Amparo", "Ley Federal del Trabajo", "Ley Agraria"], // <-- Añadidas aquí
+        "Códigos Federales": ["Código Nacional de Procedimientos Civiles y Familiares", "Código Civil Federal", "Código Penal Federal"] // <-- Actualizado aquí
+    },
+    estatal: { 
+        "Constitución Local": ["Constitución Política del Estado"], 
+        "Códigos Locales": ["Código Civil Local"], 
+        "Leyes Estatales": ["Ley de Desarrollo Urbano"] 
+    },
+    internacional: { 
+        "Derechos Humanos": ["Convención Americana sobre DDHH (Pacto de San José)"], 
+        "Derecho Laboral / Social": ["Convenio 87 de la OIT (Libertad Sindical)"], 
+        "Comercio e Internacional Privado": ["T-MEC"] 
+    }
+};
 
         let ambitoActual = 'federal'; let categoriaSeleccionada = ''; let estadoSeleccionado = ''; let leySeleccionada = '';
         const selectEstado = document.getElementById('select-estado'); const selectCategoria = document.getElementById('select-categoria'); const selectLey = document.getElementById('select-ley'); const wrapperEstados = document.getElementById('wrapper-estados'); const buscador = document.getElementById('buscador'); const contenedor = document.getElementById('contenedor-leyes'); const mensajeSinResultados = document.getElementById('sin-resultados');
