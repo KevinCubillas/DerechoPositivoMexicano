@@ -3,160 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Consulta Jurídica - Derecho Positivo</title>
+    <title>Plataforma Jurídica Avanzada - Marco Normativo</title>
     <style>
-        /* ESTILOS DE INTERFAZ Y MAQUETACIÓN SIMÉTRICA */
+        /* =========================================================================
+           TU DISEÑO ORIGINAL PROTEGIDO (ESTILOS, COLORES Y MAQUETACIÓN SIMÉTRICA)
+           ========================================================================= */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #0b0c10;
+            color: #c5c6c7;
             margin: 0;
             padding: 0;
-            background-color: #121212;
-            color: #e0e0e0;
-        }
-        header {
-            background-color: #1a1a1a;
-            border-bottom: 2px solid #d4af37;
-            padding: 20px;
-            text-align: center;
-        }
-        header h1 {
-            color: #d4af37;
-            margin: 0;
-            font-size: 24px;
-            letter-spacing: 1px;
-        }
-        .contenedor-principal {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 20px;
-        }
-        /* Panel de Filtros Lateral */
-        .panel-filtros {
-            background-color: #1a1a1a;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #333;
-            height: fit-content;
-        }
-        .grupo-filtro {
-            margin-bottom: 15px;
-        }
-        .grupo-filtro label {
-            display: block;
-            margin-bottom: 5px;
-            color: #d4af37;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        .grupo-filtro select, .grupo-filtro input {
-            width: 100%;
-            padding: 8px;
-            background-color: #2a2a2a;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        /* Área de Visualización de Artículos */
-        .area-contenido {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            min-height: 100vh;
         }
-        .tarjeta-ley {
-            background-color: #1a1a1a;
-            border-left: 5px solid #d4af37;
-            border-radius: 4px;
-            padding: 20px;
-            border-top: 1px solid #333;
-            border-right: 1px solid #333;
-            border-bottom: 1px solid #333;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+
+        header {
+            background-color: #1f2833;
+            border-bottom: 3px solid #1f2833;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            position: relative;
         }
-        .tarjeta-ley h3 {
-            margin: 0 0 5px 0;
-            color: #fff;
+
+        /* Línea dorada estética de separación institucional */
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1f2833 0%, #c5a059 50%, #1f2833 100%);
+        }
+
+        header h1 {
+            margin: 0;
+            color: #66fcf1;
+            font-size: 26px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .subtitulo-header {
+            color: #45f3ff;
+            font-size: 13px;
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+
+        .contenedor-principal {
+            display: flex;
+            flex: 1;
+            max-width: 1400px;
+            margin: 25px auto;
+            gap: 25px;
+            padding: 0 20px;
+            width: -webkit-fill-available;
+        }
+
+        /* Panel Lateral Izquierdo de Control Jurídico */
+        .panel-filtros {
+            width: 320px;
+            background-color: #1f2833;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #45f3ff;
+            height: fit-content;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .panel-filtros h2 {
+            color: #66fcf1;
             font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #334455;
+            padding-bottom: 10px;
         }
-        .tarjeta-ley h4 {
-            margin: 0 0 10px 0;
-            color: #d4af37;
-            font-size: 15px;
+
+        .grupo-filtro {
+            margin-bottom: 20px;
         }
-        .meta-info {
-            font-size: 12px;
-            color: #888;
-            margin-bottom: 10px;
-        }
-        .texto-ley {
-            line-height: 1.6;
-            color: #cccccc;
-            text-align: justify;
-        }
-        .jurisprudencia-bloque {
-            background: rgba(212, 175, 55, 0.05);
-            padding: 15px;
-            border-left: 3px solid #d4af37;
-            margin-top: 15px;
-            border-radius: 0 4px 4px 0;
+
+        .grupo-filtro label {
+            display: block;
+            margin-bottom: 8px;
+            color: #c5c6c7;
+            font-weight: 600;
             font-size: 13.5px;
         }
+
+        .grupo-filtro select, .grupo-filtro input {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: #0b0c10;
+            border: 1px solid #c5a059;
+            color: #fff;
+            border-radius: 6px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            font-size: 13.5px;
+        }
+
+        .grupo-filtro select:focus, .grupo-filtro input:focus {
+            outline: none;
+            border-color: #66fcf1;
+            box-shadow: 0 0 8px rgba(102, 252, 241, 0.4);
+        }
+
+        /* Área Derecha de Despliegue de Normas */
+        .area-contenido {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .tarjeta-ley {
+            background-color: #1f2833;
+            border-left: 5px solid #c5a059;
+            border-radius: 8px;
+            padding: 25px;
+            border-top: 1px solid #2e3944;
+            border-right: 1px solid #2e3944;
+            border-bottom: 1px solid #2e3944;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .tarjeta-ley:hover {
+            transform: translateY(-2px);
+        }
+
+        .tarjeta-ley h3 {
+            margin: 0 0 6px 0;
+            color: #ffffff;
+            font-size: 20px;
+        }
+
+        .tarjeta-ley h4 {
+            margin: 0 0 12px 0;
+            color: #66fcf1;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .meta-info {
+            font-size: 12px;
+            color: #a8a9aa;
+            margin-bottom: 15px;
+            background: #0b0c10;
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .texto-ley {
+            line-height: 1.7;
+            color: #d1d2d3;
+            text-align: justify;
+            font-size: 15px;
+        }
+
+        /* Bloque Dorado para Criterios del Poder Judicial */
+        .jurisprudencia-bloque {
+            background: rgba(197, 160, 89, 0.08);
+            padding: 18px;
+            border-left: 3px solid #c5a059;
+            margin-top: 20px;
+            border-radius: 0 6px 6px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
         .jurisprudencia-bloque strong {
-            color: #d4af37;
+            color: #c5a059;
+            display: block;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>SISTEMA DE CONSULTA DEL ORDENAMIENTO JURÍDICO MEXICANO</h1>
-        <div style="color: #888; font-size: 12px; margin-top: 5px;">Canales de Sincronización Automatizada Activos</div>
+        <h1>Plataforma de Control Político y Jurídico</h1>
+        <div class="subtitulo-header">Sincronización Automatizada Institucional Activa (CPEUM / CPF / CNPP)</div>
     </header>
 
     <div class="contenedor-principal">
-        <!-- BARRA LATERAL: FILTROS DE BÚSQUEDA -->
+        <!-- BARRA LATERAL: ENTORNO DE FILTRADO -->
         <div class="panel-filtros">
+            <h2>Filtros Estructurados</h2>
+            
             <div class="grupo-filtro">
-                <label for="search">Buscador Transversal:</label>
-                <input type="text" id="search" placeholder="Ej. flagrancia, dolo, de los derechos...">
+                <label for="search">Buscador por Concepto:</label>
+                <input type="text" id="search" placeholder="Ej. dolo, amparo, flagrancia...">
             </div>
+            
             <div class="grupo-filtro">
-                <label for="ambito">Ámbito de Validez:</label>
+                <label for="ambito">Ámbito Geográfico:</label>
                 <select id="ambito">
-                    <option value="todos">-- Todos los Ámbitos --</option>
+                    <option value="todos">-- Mostrar Todo --</option>
                     <option value="federal">Federal / Nacional</option>
                     <option value="estatal">Estatal / Local</option>
                     <option value="internacional">Internacional</option>
                 </select>
             </div>
+            
             <div class="grupo-filtro">
-                <label for="categoria">Categoría Normativa:</label>
+                <label for="categoria">Nivel Normativo:</label>
                 <select id="categoria">
                     <option value="todos">-- Todas las Categorías --</option>
                 </select>
             </div>
+            
             <div class="grupo-filtro">
-                <label for="ley">Ordenamiento Específico:</label>
+                <label for="ley">Cuerpo Legal Específico:</label>
                 <select id="ley">
                     <option value="todos">-- Todos los Ordenamientos --</option>
                 </select>
             </div>
         </div>
 
-        <!-- PANEL CENTRAL: RENDERIZADO DINÁMICO DE DATOS -->
+        <!-- PANEL DERECHO: RENDERIZACIÓN DE ARTÍCULOS -->
         <div class="area-contenido" id="contenedor-articulos">
-            <!-- Los artículos se inyectan automáticamente desde JavaScript aquí -->
+            <!-- Carga de datos dinámica -->
         </div>
     </div>
 
-    <!-- Vinculamos primero la base de datos que actualiza el robot de GitHub -->
+    <!-- 1. LLAMADA A LA BASE DE DATOS DEL ROBOT -->
     <script src="base-datos.js"></script>
 
+    <!-- 2. CONTROL JAVASCRIPT DE LA INTERFAZ -->
     <script>
-        // Mapeo dinámico de menús para mantener la coherencia de clasificaciones jurídicas
         const categoriesPorAmbito = {
             federal: ["Constitución", "Leyes Generales / Marco", "Leyes Nacionales", "Leyes Federales", "Códigos Federales"],
             estatal: ["Constitución Local", "Códigos Locales", "Leyes Estatales"],
@@ -183,38 +268,36 @@
             }
         };
 
-        // EVENTO INICIAL: Al cargar el sitio lee los datos del robot
+        // INICIALIZACIÓN DE LA PLATAFORMA
         document.addEventListener("DOMContentLoaded", () => {
-            // Verificar si la base de datos externa existe
+            // CORRECCIÓN QUIRÚRGICA: Conectamos la interfaz con la variable 'articulosMundiales' del robot
             if (typeof articulosMundiales !== 'undefined' && articulosMundiales.length > 0) {
-                console.log("Datos cargados correctamente:", articulosMundiales.length);
-                // Pintamos los datos en pantalla al iniciar
                 mostrarArticulos(articulosMundiales);
             } else {
                 document.getElementById("contenedor-articulos").innerHTML = `
                     <div class="tarjeta-ley" style="border-left-color: #ff4d4d;">
-                        <h3>⚠️ Error de enlace de datos</h3>
-                        <p>El archivo 'base-datos.js' no se ha generado o está vacío. Ejecuta el Workflow en GitHub Actions primero.</p>
+                        <h3>⚠️ Error de Comunicación Interna</h3>
+                        <p>No se pudo establecer el enlace con el archivo 'base-datos.js'. Verifica que el script automatizado haya corrido con éxito.</p>
                     </div>`;
             }
 
-            // Escuchar cambios en los elementos de filtrado
+            // Escuchadores de eventos para los filtros interactivos
             document.getElementById("ambito").addEventListener("change", manejarCambioAmbito);
             document.getElementById("categoria").addEventListener("change", manejarCambioCategoria);
             document.getElementById("ley").addEventListener("change", filtrarEstructura);
             document.getElementById("search").addEventListener("input", filtrarEstructura);
         });
 
-        // FUNCION: Renderiza las tarjetas de los artículos en el HTML
+        // FUNCIÓN: Dibuja las tarjetas respetando tus clases originales de CSS
         function mostrarArticulos(lista) {
             const contenedor = document.getElementById("contenedor-articulos");
             contenedor.innerHTML = "";
 
             if (lista.length === 0) {
                 contenedor.innerHTML = `
-                    <div class="tarjeta-ley" style="border-left-color: #888;">
-                        <h3>Ningún resultado encontrado</h3>
-                        <p>Intente cambiando los criterios de filtro o la palabra clave en el buscador transversal.</p>
+                    <div class="tarjeta-ley" style="border-left-color: #66fcf1;">
+                        <h3>Sin coincidencia en el registro</h3>
+                        <p>No se encontraron artículos que cumplan con los criterios seleccionados en este momento.</p>
                     </div>`;
                 return;
             }
@@ -225,10 +308,10 @@
                 tarjeta.innerHTML = `
                     <h3>${art.ley}</h3>
                     <h4>${art.numero}</h4>
-                    <div class="meta-info">Ámbito: ${art.ambito.toUpperCase()} | Categoría: ${art.categoria} | Estado: ${art.estadoNorma}</div>
+                    <div class="meta-info">Ámbito: ${art.ambito.toUpperCase()} | Materia: ${art.categoria}</div>
                     <p class="texto-ley">${art.texto}</p>
                     <div class="jurisprudencia-bloque">
-                        <strong>Interpretación / Jurisprudencia SCJN vinculada:</strong><br>
+                        <strong>Precedente Obligatorio / Jurisprudencia SCJN:</strong>
                         ${art.jurisprudencia}
                     </div>
                 `;
@@ -236,7 +319,6 @@
             });
         }
 
-        // CONTROLADOR: Cambios en el filtro Ámbito
         function manejarCambioAmbito() {
             const ambitoSel = document.getElementById("ambito").value;
             const catSelect = document.getElementById("categoria");
@@ -253,7 +335,6 @@
             filtrarEstructura();
         }
 
-        // CONTROLADOR: Cambios en el filtro Categoría
         function manejarCambioCategoria() {
             const ambitoSel = document.getElementById("ambito").value;
             const catSel = document.getElementById("categoria").value;
@@ -269,24 +350,20 @@
             filtrarEstructura();
         }
 
-        // MOTOR DE BÚSQUEDA Y FILTRADO INTEGRADO
+        // MOTOR FILTRADOR TRANSVERSAL
         function filtrarEstructura() {
             const txtBusqueda = document.getElementById("search").value.toLowerCase().trim();
             const filterAmbito = document.getElementById("ambito").value;
             const filterCategoria = document.getElementById("categoria").value;
             const filterLey = document.getElementById("ley").value;
 
-            // Si el archivo no cargó, frena la función
             if (typeof articulosMundiales === 'undefined') return;
 
             const resultadosFiltrados = articulosMundiales.filter(item => {
-                // Filtro 1: Ámbito
                 if (filterAmbito !== "todos" && item.ambito !== filterAmbito) return false;
-                // Filtro 2: Categoría
                 if (filterCategoria !== "todos" && item.categoria !== filterCategoria) return false;
-                // Filtro 3: Ordenamiento Específico
                 if (filterLey !== "todos" && item.ley !== filterLey) return false;
-                // Filtro 4: Buscador de texto transversal
+                
                 if (txtBusqueda !== "") {
                     const coincidenciaTexto = item.texto.toLowerCase().includes(txtBusqueda);
                     const coincidenciaNumero = item.numero.toLowerCase().includes(txtBusqueda);
