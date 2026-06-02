@@ -3,285 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Derecho Positivo Mexicano</title>
+    <title>Plataforma de Consulta Jurídica - Derecho Positivo</title>
     <style>
-        :root {
-            --azul-primario: #1e3a8a; 
-            --azul-acento: #2563eb;
-            --dorado: #b45309;
-            --gris-fondo: #e2e8f0; 
-            --gris-borde: #cbd5e1;
-            --texto: #1e293b;
-        }
-
-        html, body {
+        /* ESTILOS DE INTERFAZ Y MAQUETACIÓN SIMÉTRICA */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            min-height: 100%;
+            background-color: #121212;
+            color: #e0e0e0;
         }
-
-        body { 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            line-height: 1.6; 
-            color: var(--texto);
-            padding: 40px 20px;
+        header {
+            background-color: #1a1a1a;
+            border-bottom: 2px solid #d4af37;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            color: #d4af37;
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+        .contenedor-principal {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+        /* Panel de Filtros Lateral */
+        .panel-filtros {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            height: fit-content;
+        }
+        .grupo-filtro {
+            margin-bottom: 15px;
+        }
+        .grupo-filtro label {
+            display: block;
+            margin-bottom: 5px;
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .grupo-filtro select, .grupo-filtro input {
+            width: 100%;
+            padding: 8px;
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 4px;
             box-sizing: border-box;
-            background-color: var(--gris-fondo);
-
-            /* CAPA DE TRANSPARENCIA + IMÁGENES SIMÉTRICAS */
-            background-image: 
-                linear-gradient(to right, rgba(226, 232, 240, 0.88), rgba(226, 232, 240, 0.88)), /* Capa gris que transparenta todo */
-                url("fondo-justicia.jpg"), 
-                url("fondo-justicia.jpg");
-            background-position: 
-                center,
-                left center, 
-                right center;
-            background-repeat: no-repeat, no-repeat, no-repeat;
-            background-size: 
-                100% 100%,
-                32% auto, 32% auto; /* Más grandes para dar simetría en los costados */
-            background-attachment: fixed, fixed, fixed;
-            
-            /* Mezcla digital para convertir a escala de grises y suavizar */
-            background-blend-mode: normal, luminosity, luminosity;
         }
-
-        /* TARJETA PRINCIPAL: Centrada, sólida y muy limpia */
-        .app-card { 
-            background-color: #ffffff; 
-            padding: 40px; 
-            border-radius: 16px; 
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1); 
-            border: 1px solid var(--gris-borde);
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 10;
+        /* Área de Visualización de Artículos */
+        .area-contenido {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
-        
-        /* Encabezado Editorial */
-        .header { 
-            border-bottom: 2px solid var(--gris-borde); 
-            padding-bottom: 20px; 
-            margin-bottom: 30px; 
+        .tarjeta-ley {
+            background-color: #1a1a1a;
+            border-left: 5px solid #d4af37;
+            border-radius: 4px;
+            padding: 20px;
+            border-top: 1px solid #333;
+            border-right: 1px solid #333;
+            border-bottom: 1px solid #333;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
-        h1 { 
-            font-family: 'Georgia', serif; 
-            color: var(--azul-primario); 
-            margin: 0 0 10px 0; 
-            font-size: 34px; 
-            font-weight: 800; 
-            letter-spacing: -0.5px;
+        .tarjeta-ley h3 {
+            margin: 0 0 5px 0;
+            color: #fff;
+            font-size: 18px;
         }
-        
-        /* Descripción del propósito de la página */
-        .descripcion-plataforma {
-            font-size: 14.5px;
-            color: #475569;
-            margin: 0 0 20px 0;
+        .tarjeta-ley h4 {
+            margin: 0 0 10px 0;
+            color: #d4af37;
+            font-size: 15px;
+        }
+        .meta-info {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        .texto-ley {
             line-height: 1.6;
+            color: #cccccc;
             text-align: justify;
         }
-
-        .barra-sincronizacion { 
-            background-color: #f0fdf4; 
-            border: 1px solid #bbf7d0; 
-            color: #166534; 
-            padding: 10px 15px; 
-            border-radius: 8px; 
-            font-size: 13px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+        .jurisprudencia-bloque {
+            background: rgba(212, 175, 55, 0.05);
+            padding: 15px;
+            border-left: 3px solid #d4af37;
+            margin-top: 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 13.5px;
         }
-        .indicador-activo { display: flex; align-items: center; gap: 6px; font-weight: bold; color: #166534; }
-        .punto-verde { width: 8px; height: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block; }
-
-        /* Estructura de Navegación */
-        .bloque-navegacion { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; 
-            margin-bottom: 25px; 
-            background-color: #f8fafc; 
-            padding: 20px; 
-            border-radius: 12px; 
-            border: 1px solid var(--gris-borde); 
+        .jurisprudencia-bloque strong {
+            color: #d4af37;
         }
-        .grupo-selector { display: flex; flex-direction: column; gap: 5px; }
-        .grupo-selector label { font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
-        
-        select, input[type="text"] { 
-            padding: 12px 16px; 
-            font-size: 14px; 
-            border: 1px solid var(--gris-borde); 
-            border-radius: 8px; 
-            background-color: white; 
-            color: var(--texto); 
-            outline: none; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-        }
-        select:focus, input[type="text"]:focus { 
-            border-color: var(--azul-acento); 
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.1); 
-        }
-        
-        /* Buscador */
-        .caja-busqueda { 
-            width: 100%; 
-            font-size: 16px; 
-            font-weight: 500; 
-            box-sizing: border-box; 
-            margin-bottom: 30px; 
-            border: 2px solid var(--gris-borde); 
-        }
-        
-        /* Artículos */
-        .articulo { 
-            padding: 25px; 
-            background-color: white; 
-            border-radius: 12px; 
-            border: 1px solid var(--gris-borde); 
-            border-left: 5px solid var(--azul-primario); 
-            margin-bottom: 20px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.01); 
-        }
-        .art-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-        .art-numero { font-size: 17px; font-weight: 700; color: var(--azul-primario); }
-        .badge { font-size: 10px; padding: 4px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase; }
-        .badge-vigente { background-color: #e2fbf0; color: #10b981; border: 1px solid #a7f3d0; }
-        .badge-reforma { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
-        .art-texto { text-align: justify; margin: 0 0 15px 0; color: #334155; font-size: 15.5px; }
-        
-        /* Acciones */
-        .actions { display: flex; gap: 10px; }
-        .btn { padding: 8px 16px; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1px solid var(--gris-borde); background-color: #f8fafc; transition: all 0.2s; }
-        .btn:hover { background-color: #f1f5f9; border-color: #cbd5e1; }
-        .btn-precedente { color: var(--dorado); border-color: #fde68a; background-color: #fef3c7; }
-        .btn-precedente:hover { background-color: #fde68a; }
-        
-        /* Caja de Precedentes */
-        .bloque-precedente { display: none; margin-top: 15px; padding: 18px; background-color: #fffbeb; border: 1px dashed #f59e0b; border-radius: 8px; font-size: 14px; color: #78350f; line-height: 1.5; }
-        .prec-titulo { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--dorado); display: block; margin-bottom: 8px; letter-spacing: 0.5px; }
-        
-        mark { background-color: #fde047; color: #000; border-radius: 2px; }
-        #sin-resultados { text-align: center; color: #94a3b8; padding: 30px; display: none; font-weight: bold; }
     </style>
-    <script src="base-datos.js"></script>
 </head>
 <body>
 
-    <div class="app-card">
-        <div class="header">
-            <h1>Derecho Positivo Mexicano</h1>
-            <p class="descripcion-plataforma">
-                Plataforma de consulta, análisis y control del marco normativo nacional. Este sistema centraliza la jerarquía jurídica de los ordenamientos del Estado Mexicano, permitiendo la exploración de textos de vigencia oficial vinculados de forma directa con los criterios interpretativos y precedentes jurisprudenciales relevantes.
-            </p>
-            <div class="barra-sincronizacion">
-                <div class="indicador-activo"><span class="punto-verde"></span> Canales de Sincronización Listos</div>
-                <div>Marca de Agua Optimizada</div>
+    <header>
+        <h1>SISTEMA DE CONSULTA DEL ORDENAMIENTO JURÍDICO MEXICANO</h1>
+        <div style="color: #888; font-size: 12px; margin-top: 5px;">Canales de Sincronización Automatizada Activos</div>
+    </header>
+
+    <div class="contenedor-principal">
+        <!-- BARRA LATERAL: FILTROS DE BÚSQUEDA -->
+        <div class="panel-filtros">
+            <div class="grupo-filtro">
+                <label for="search">Buscador Transversal:</label>
+                <input type="text" id="search" placeholder="Ej. flagrancia, dolo, de los derechos...">
             </div>
-        </div>
-        
-        <div class="bloque-navegacion">
-            <div class="grupo-selector">
-                <label for="select-ambito">1. Ámbito Jerárquico:</label>
-                <select id="select-ambito" onchange="cambiarAmbito(this.value)">
-                    <option value="federal">Ordenamiento Federal</option>
-                    <option value="estatal">Ordenamientos Estatales</option>
-                    <option value="internacional">Tratados Internacionales</option>
+            <div class="grupo-filtro">
+                <label for="ambito">Ámbito de Validez:</label>
+                <select id="ambito">
+                    <option value="todos">-- Todos los Ámbitos --</option>
+                    <option value="federal">Federal / Nacional</option>
+                    <option value="estatal">Estatal / Local</option>
+                    <option value="internacional">Internacional</option>
                 </select>
             </div>
-            <div id="wrapper-estados" class="grupo-selector" style="display:none;">
-                <label for="select-estado">2. Entidad Federativa:</label>
-                <select id="select-estado" onchange="seleccionarEstado(this.value)"></select>
+            <div class="grupo-filtro">
+                <label for="categoria">Categoría Normativa:</label>
+                <select id="categoria">
+                    <option value="todos">-- Todas las Categorías --</option>
+                </select>
             </div>
-            <div id="wrapper-categorias" class="grupo-selector">
-                <label for="select-categoria">3. Clasificación Jurídica:</label>
-                <select id="select-categoria" onchange="seleccionarCategoria(this.value)"></select>
-            </div>
-            <div id="wrapper-leyes" class="grupo-selector">
-                <label for="select-ley">4. Documento Oficial:</label>
-                <select id="select-ley" onchange="seleccionarLey(this.value)"></select>
+            <div class="grupo-filtro">
+                <label for="ley">Ordenamiento Específico:</label>
+                <select id="ley">
+                    <option value="todos">-- Todos los Ordenamientos --</option>
+                </select>
             </div>
         </div>
-        
-        <input type="text" id="buscador" class="caja-busqueda" placeholder="🔍 Escribe conceptos, palabras clave o artículos para buscar al instante...">
 
-        <div id="contenedor-leyes"></div>
-        <div id="sin-resultados">Ningún registro coincide con los criterios o filtros seleccionados.</div>
+        <!-- PANEL CENTRAL: RENDERIZADO DINÁMICO DE DATOS -->
+        <div class="area-contenido" id="contenedor-articulos">
+            <!-- Los artículos se inyectan automáticamente desde JavaScript aquí -->
+        </div>
     </div>
 
+    <!-- Vinculamos primero la base de datos que actualiza el robot de GitHub -->
+    <script src="base-datos.js"></script>
+
     <script>
-        const estadosMexico = ["Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua", "Ciudad de México", "Coahuila", "Colima", "Durango", "Estado de México", "Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas"].sort((a, b) => a.localeCompare(b));
-        
+        // Mapeo dinámico de menús para mantener la coherencia de clasificaciones jurídicas
         const categoriesPorAmbito = {
-    federal: ["Constitución", "Leyes Generales / Marco", "Leyes Nacionales", "Leyes Federales", "Códigos Federales"],
-    estatal: ["Constitución Local", "Códigos Locales", "Leyes Estatales"],
-    internacional: ["Derechos Humanos", "Derecho Laboral / Social", "Comercio e Internacional Privado"]
-};
+            federal: ["Constitución", "Leyes Generales / Marco", "Leyes Nacionales", "Leyes Federales", "Códigos Federales"],
+            estatal: ["Constitución Local", "Códigos Locales", "Leyes Estatales"],
+            internacional: ["Derechos Humanos", "Derecho Laboral / Social", "Comercio e Internacional Privado"]
+        };
 
-const catalogoLeyes = {
-    federal: { 
-        "Constitución": ["Constitución Política (CPEUM)"], 
-        "Leyes Generales / Marco": ["Ley General de Víctimas"], 
-        "Leyes Nacionales": [], 
-        "Leyes Federales": ["Ley Federal del Trabajo"],
-        "Códigos Federales": [
-            "Código Penal Federal", 
-            "Código Nacional de Procedimientos Penales"
-        ] // <-- Los dos códigos penales mapeados de forma exacta aquí
-    },
-    estatal: { 
-        "Constitución Local": ["Constitución Política del Estado"], 
-        "Códigos Locales": ["Código Civil Local"], 
-        "Leyes Estatales": ["Ley de Desarrollo Urbano"] 
-    },
-    internacional: { 
-        "Derechos Humanos": ["Convención Americana sobre DDHH (Pacto de San José)"], 
-        "Derecho Laboral / Social": ["Convenio 87 de la OIT (Libertad Sindical)"], 
-        "Comercio e Internacional Privado": ["T-MEC"] 
-    }
-};
+        const catalogoLeyes = {
+            federal: { 
+                "Constitución": ["Constitución Política (CPEUM)"], 
+                "Leyes Generales / Marco": ["Ley General de Víctimas"], 
+                "Leyes Nacionales": [], 
+                "Leyes Federales": ["Ley Federal del Trabajo"],
+                "Códigos Federales": ["Código Penal Federal", "Código Nacional de Procedimientos Penales"] 
+            },
+            estatal: { 
+                "Constitución Local": ["Constitución Política del Estado"], 
+                "Códigos Locales": ["Código Civil Local"], 
+                "Leyes Estatales": ["Ley de Desarrollo Urbano"] 
+            },
+            internacional: { 
+                "Derechos Humanos": ["Convención Americana sobre DDHH (Pacto de San José)"], 
+                "Derecho Laboral / Social": ["Convenio 87 de la OIT (Libertad Sindical)"], 
+                "Comercio e Internacional Privado": ["T-MEC"] 
+            }
+        };
 
-        let ambitoActual = 'federal'; let categoriaSeleccionada = ''; let estadoSeleccionado = ''; let leySeleccionada = '';
-        const selectEstado = document.getElementById('select-estado'); const selectCategoria = document.getElementById('select-categoria'); const selectLey = document.getElementById('select-ley'); const wrapperEstados = document.getElementById('wrapper-estados'); const buscador = document.getElementById('buscador'); const contenedor = document.getElementById('contenedor-leyes'); const mensajeSinResultados = document.getElementById('sin-resultados');
+        // EVENTO INICIAL: Al cargar el sitio lee los datos del robot
+        document.addEventListener("DOMContentLoaded", () => {
+            // Verificar si la base de datos externa existe
+            if (typeof articulosMundiales !== 'undefined' && articulosMundiales.length > 0) {
+                console.log("Datos cargados correctamente:", articulosMundiales.length);
+                // Pintamos los datos en pantalla al iniciar
+                mostrarArticulos(articulosMundiales);
+            } else {
+                document.getElementById("contenedor-articulos").innerHTML = `
+                    <div class="tarjeta-ley" style="border-left-color: #ff4d4d;">
+                        <h3>⚠️ Error de enlace de datos</h3>
+                        <p>El archivo 'base-datos.js' no se ha generado o está vacío. Ejecuta el Workflow en GitHub Actions primero.</p>
+                    </div>`;
+            }
 
-        function inicializarListas() { selectEstado.innerHTML = estadosMexico.map(e => `<option value="${e}">${e}</option>`).join(''); }
-        
-        function cambiarAmbito(nuevoAmbito) {
-            ambitoActual = nuevoAmbito;
-            if (nuevoAmbito === 'estatal') { wrapperEstados.style.display = "flex"; estadoSeleccionado = selectEstado.value || estadosMexico[0]; } else { wrapperEstados.style.display = "none"; estadoSeleccionado = ''; }
-            const categorias = categoriesPorAmbito[nuevoAmbito];
-            selectCategoria.innerHTML = categorias.map(c => `<option value="${c}">${c}</option>`).join('');
-            seleccionarCategoria(selectCategoria.value);
-        }
-        
-        function seleccionarEstado(estado) { estadoSeleccionado = estado; actualizarPantalla(); }
-        function seleccionarCategoria(cat) { categoriaSeleccionada = cat; const leyes = catalogoLeyes[ambitoActual][cat] || []; selectLey.innerHTML = leyes.map(l => `<option value="${l}">${l}</option>`).join(''); seleccionarLey(selectLey.value); }
-        function seleccionarLey(ley) { leySeleccionada = ley; buscador.value = ""; actualizarPantalla(); }
-        function resaltarTexto(t, p) { if (!p.trim()) return t; const exp = new RegExp(`(${p.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi'); return t.replace(exp, '<mark>$1</mark>'); }
-        function copiarTextoArticulo(id, btn) { navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => { const old = btn.innerHTML; btn.innerHTML = "¡Copiado! ✓"; setTimeout(() => { btn.innerHTML = old; }, 1200); }); }
-        function toggleJurisprudencia(id) { const b = document.getElementById(id); b.style.display = (b.style.display === "block") ? "none" : "block"; }
+            // Escuchar cambios en los elementos de filtrado
+            document.getElementById("ambito").addEventListener("change", manejarCambioAmbito);
+            document.getElementById("categoria").addEventListener("change", manejarCambioCategoria);
+            document.getElementById("ley").addEventListener("change", filtrarEstructura);
+            document.getElementById("search").addEventListener("input", filtrarEstructura);
+        });
 
-        function actualizarPantalla() {
-            contenedor.innerHTML = ""; const txt = buscador.value;
-            const filtradas = articulosMundiales.filter(art => {
-                return (art.ambito === ambitoActual) && (art.categoria === categoriaSeleccionada) && (art.ley === leySeleccionada) && ((ambitoActual === 'estatal') ? (art.subambito === estadoSeleccionado) : true) && (art.numero.toLowerCase().includes(txt.toLowerCase()) || art.texto.toLowerCase().includes(txt.toLowerCase()));
+        // FUNCION: Renderiza las tarjetas de los artículos en el HTML
+        function mostrarArticulos(lista) {
+            const contenedor = document.getElementById("contenedor-articulos");
+            contenedor.innerHTML = "";
+
+            if (lista.length === 0) {
+                contenedor.innerHTML = `
+                    <div class="tarjeta-ley" style="border-left-color: #888;">
+                        <h3>Ningún resultado encontrado</h3>
+                        <p>Intente cambiando los criterios de filtro o la palabra clave en el buscador transversal.</p>
+                    </div>`;
+                return;
+            }
+
+            lista.forEach(art => {
+                const tarjeta = document.createElement("div");
+                tarjeta.className = "tarjeta-ley";
+                tarjeta.innerHTML = `
+                    <h3>${art.ley}</h3>
+                    <h4>${art.numero}</h4>
+                    <div class="meta-info">Ámbito: ${art.ambito.toUpperCase()} | Categoría: ${art.categoria} | Estado: ${art.estadoNorma}</div>
+                    <p class="texto-ley">${art.texto}</p>
+                    <div class="jurisprudencia-bloque">
+                        <strong>Interpretación / Jurisprudencia SCJN vinculada:</strong><br>
+                        ${art.jurisprudencia}
+                    </div>
+                `;
+                contenedor.appendChild(tarjeta);
             });
-            if (filtradas.length === 0 || !leySeleccionada) { mensajeSinResultados.style.display = "block"; return; }
-            mensajeSinResultados.style.display = "none";
-            filtradas.forEach((ley, i) => {
-                const b = document.createElement('div'); b.className = 'articulo'; const idT = `t-${i}`; const idJ = `j-${i}`;
-                b.innerHTML = `<div class="art-meta"><span class="art-numero">${resaltarTexto(ley.numero, txt)}</span><div><span class="badge badge-vigente">${ley.estadoNorma}</span> <span class="badge badge-reforma">${ley.ultimaReforma}</span></div></div><p id="${idT}" class="art-texto">${resaltarTexto(ley.texto, txt)}</p><div class="actions"><button class="btn" onclick="copiarTextoArticulo('${idT}', this)">📋 Copiar Texto</button>${ley.jurisprudencia ? `<button class="btn btn-precedente" onclick="toggleJurisprudencia('${idJ}')">⚖ Precedente</button>` : ''}</div>${ley.jurisprudencia ? `<div id="${idJ}" class="bloque-precedente"><span class="prec-titulo">Precedente Jurisprudencial:</span><p style="margin:0; text-align:justify;">${resaltarTexto(ley.jurisprudencia, txt)}</p></div>` : ''}`;
-                contenedor.appendChild(b);
-            });
         }
-        
-        window.onload = function() { inicializarListas(); cambiarAmbito('federal'); };
-        buscador.addEventListener('input', actualizarPantalla);
+
+        // CONTROLADOR: Cambios en el filtro Ámbito
+        function manejarCambioAmbito() {
+            const ambitoSel = document.getElementById("ambito").value;
+            const catSelect = document.getElementById("categoria");
+            const leySelect = document.getElementById("ley");
+
+            catSelect.innerHTML = '<option value="todos">-- Todas las Categorías --</option>';
+            leySelect.innerHTML = '<option value="todos">-- Todos los Ordenamientos --</option>';
+
+            if (ambitoSel !== "todos" && categoriesPorAmbito[ambitoSel]) {
+                categoriesPorAmbito[ambitoSel].forEach(c => {
+                    catSelect.innerHTML += `<option value="${c}">${c}</option>`;
+                });
+            }
+            filtrarEstructura();
+        }
+
+        // CONTROLADOR: Cambios en el filtro Categoría
+        function manejarCambioCategoria() {
+            const ambitoSel = document.getElementById("ambito").value;
+            const catSel = document.getElementById("categoria").value;
+            const leySelect = document.getElementById("ley");
+
+            leySelect.innerHTML = '<option value="todos">-- Todos los Ordenamientos --</option>';
+
+            if (ambitoSel !== "todos" && catSel !== "todos" && catalogoLeyes[ambitoSel][catSel]) {
+                catalogoLeyes[ambitoSel][catSel].forEach(l => {
+                    leySelect.innerHTML += `<option value="${l}">${l}</option>`;
+                });
+            }
+            filtrarEstructura();
+        }
+
+        // MOTOR DE BÚSQUEDA Y FILTRADO INTEGRADO
+        function filtrarEstructura() {
+            const txtBusqueda = document.getElementById("search").value.toLowerCase().trim();
+            const filterAmbito = document.getElementById("ambito").value;
+            const filterCategoria = document.getElementById("categoria").value;
+            const filterLey = document.getElementById("ley").value;
+
+            // Si el archivo no cargó, frena la función
+            if (typeof articulosMundiales === 'undefined') return;
+
+            const resultadosFiltrados = articulosMundiales.filter(item => {
+                // Filtro 1: Ámbito
+                if (filterAmbito !== "todos" && item.ambito !== filterAmbito) return false;
+                // Filtro 2: Categoría
+                if (filterCategoria !== "todos" && item.categoria !== filterCategoria) return false;
+                // Filtro 3: Ordenamiento Específico
+                if (filterLey !== "todos" && item.ley !== filterLey) return false;
+                // Filtro 4: Buscador de texto transversal
+                if (txtBusqueda !== "") {
+                    const coincidenciaTexto = item.texto.toLowerCase().includes(txtBusqueda);
+                    const coincidenciaNumero = item.numero.toLowerCase().includes(txtBusqueda);
+                    const coincidenciaLey = item.ley.toLowerCase().includes(txtBusqueda);
+                    const coincidenciaJuris = item.jurisprudencia.toLowerCase().includes(txtBusqueda);
+                    
+                    if (!coincidenciaTexto && !coincidenciaNumero && !coincidenciaLey && !coincidenciaJuris) return false;
+                }
+                return true;
+            });
+
+            mostrarArticulos(resultadosFiltrados);
+        }
     </script>
 </body>
 </html>
