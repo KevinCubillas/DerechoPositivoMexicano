@@ -59,7 +59,7 @@ const puppeteer = require('puppeteer');
     }
 })();
 
-// NÚCLEO DE INFORMACIÓN: CPEUM, CPF Y CNPP
+// NÚCLEO DE INFORMACIÓN COMPATIBLE AL 100% CON TU INTERFAZ ORIGINAL
 function inyectarCatalogoPenalYConstitucional() {
     const catalogoEspecializado = [
         // =========================================================================
@@ -67,6 +67,7 @@ function inyectarCatalogoPenalYConstitucional() {
         // =========================================================================
         {
             ambito: "federal",
+            subambito: "", // Añadido para que el filtro de tu HTML original sea válido
             categoria: "Constitución",
             ley: "Constitución Política (CPEUM)",
             numero: "Artículo 1o. [Derechos Humanos y Bloque de Constitucionalidad]",
@@ -77,6 +78,7 @@ function inyectarCatalogoPenalYConstitucional() {
         },
         {
             ambito: "federal",
+            subambito: "",
             categoria: "Constitución",
             ley: "Constitución Política (CPEUM)",
             numero: "Artículo 16. [Actos de Molestia y Control de Detención]",
@@ -87,6 +89,7 @@ function inyectarCatalogoPenalYConstitucional() {
         },
         {
             ambito: "federal",
+            subambito: "",
             categoria: "Constitución",
             ley: "Constitución Política (CPEUM)",
             numero: "Artículo 20. [Principios del Proceso Penal y Derechos de la Víctima]",
@@ -101,6 +104,7 @@ function inyectarCatalogoPenalYConstitucional() {
         // =========================================================================
         {
             ambito: "federal",
+            subambito: "",
             categoria: "Códigos Federales",
             ley: "Código Penal Federal",
             numero: "Artículo 7o. [Definición de Delito y Conducta]",
@@ -111,12 +115,13 @@ function inyectarCatalogoPenalYConstitucional() {
         },
         {
             ambito: "federal",
+            subambito: "",
             categoria: "Códigos Federales",
             ley: "Código Penal Federal",
             numero: "Artículo 15. [Causas de Exclusión del Delito]",
             estadoNorma: "Vigente",
             ultimaReforma: "Ref. DOF 2023",
-            texto: "El delito se excluye cuando: El hecho se realice sin intervención de la voluntad del agente; se demuestre la inexistencia de alguno de los elementos del tipo; se actúe en legítima defensa, por necesidad o bajo estricto cumplimiento de un deber...",
+            texto: "El delito se excluye cuando: El hecho se realice sin intervención de la voluntad del agente; se demuestre la inexistencia de alguno de los elementos del tipo; se actúe en legítima defense, por necesidad o bajo estricto cumplimiento de un deber...",
             jurisprudencia: "Tesis Colegiada: Legítima Defensa. Los elementos de proporcionalidad y racionalidad de los medios empleados deben valorarse bajo una perspectiva de razonabilidad fáctica, analizando el contexto de peligro real e inminente en el que se encontraba el sujeto."
         },
 
@@ -125,6 +130,7 @@ function inyectarCatalogoPenalYConstitucional() {
         // =========================================================================
         {
             ambito: "federal",
+            subambito: "",
             categoria: "Códigos Federales",
             ley: "Código Nacional de Procedimientos Penales",
             numero: "Artículo 20. [Principio de Presunción de Inocencia]",
@@ -135,6 +141,7 @@ function inyectarCatalogoPenalYConstitucional() {
         },
         {
             ambito: "federal",
+            subambito: "",
             categoria: "Códigos Federales",
             ley: "Código Nacional de Procedimientos Penales",
             numero: "Artículo 211. [Etapas del Procedimiento Penal Acusatorio]",
