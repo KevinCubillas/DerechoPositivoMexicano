@@ -139,7 +139,7 @@
     </style>
     
     <!-- Intentamos cargar el archivo externo, si falla por CORS, el script de abajo lo rescata -->
-    <script src="base-datos.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -185,179 +185,167 @@
     </div>
 
     <script>
-        // SI LA VARIABLE GLOBAL EXTERNA NO EXISTE O ESTÁ VACÍA, INYECTAMOS ESTE RESPALDO DIRECTO
-        if (typeof articlesMundialesBackup === 'undefined') {
-            var articlesMundialesBackup = [
-                {
-                    ambito: "federal",
-                    subambito: "",
-                    categoria: "Constitución",
-                    ley: "Constitución Política (CPEUM)",
-                    numero: "Artículo 1o.",
-                    estadoNorma: "Vigente",
-                    ultimaReforma: "Ref. DOF 2011",
-                    texto: "En los Estados Unidos Mexicanos todas las personas gozarán de los derechos humanos reconocidos en esta Constitución y en los tratados internacionales de los que el Estado Mexicano sea parte...",
-                    jurisprudencia: "Contradicción de Tesis 293/2011 (Pleno SCJN): Bloque de constitucionalidad."
-                },
-                {
-                    ambito: "federal",
-                    subambito: "",
-                    categoria: "Constitución",
-                    ley: "Constitución Política (CPEUM)",
-                    numero: "Artículo 14.",
-                    estadoNorma: "Vigente",
-                    ultimaReforma: "Texto Original",
-                    texto: "A ninguna ley se dará efecto retroactivo en perjuicio de persona alguna. Nadie podrá ser privado de la libertad o de sus propiedades...",
-                    jurisprudencia: "Jurisprudencia (SCJN): Formalidades esenciales del procedimiento."
-                },
-                {
-                    ambito: "federal",
-                    subambito: "",
-                    categoria: "Constitución",
-                    ley: "Constitución Política (CPEUM)",
-                    numero: "Artículo 16.",
-                    estadoNorma: "Vigente",
-                    ultimaReforma: "Ref. DOF 2019",
-                    texto: "Nadie puede ser molestado en su persona, familia, domicilio, papeles o posesiones, sino en virtud de mandamiento escrito de la autoridad competente...",
-                    jurisprudencia: "Tesis Jurisprudencial (Primera Sala): Control de detención en flagrancia."
-                }
-            ];
-        }
+       // 1. CONFIGURACIÓN DE TU CONEXIÓN A LA NUBE
+const SUPABASE_URL = "https://ichirvhnkoukvnhmrhkl.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable_yTJhN39owIWijQ0PHJP_Vg_GzlwafIo";
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        const datosFinales = (window.articulosMundiales && window.articulosMundiales.length > 0) 
-            ? window.articulosMundiales 
-            : articlesMundialesBackup;
-        const estadosMexico = ["Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua", "Ciudad de México", "Coahuila", "Colima", "Durango", "Estado de México", "Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas"].sort((a, b) => a.localeCompare(b));
-        
-        const categoriesPorAmbito = {
-            federal: ["Constitución", "Leyes Generales / Marco", "Leyes Nacionales", "Leyes Federales", "Códigos Federales"],
-            estatal: ["Constitución Local", "Códigos Locales", "Leyes Estatales"],
-            internacional: ["Derechos Humanos", "Derecho Laboral / Social", "Comercio e Internacional Privado"]
-        };
+// Variable global donde se guardarán las leyes que bajen de internet
+let datosFinales = [];
 
-        const catalogoLeyes = {
-            federal: { 
-                "Constitución": ["Constitución Política (CPEUM)"], 
-                "Leyes Generales / Marco": ["Ley General de Víctimas"], 
-                "Leyes Nacionales": [], 
-                "Leyes Federales": ["Ley Federal del Trabajo"],
-                "Códigos Federales": ["Código Penal Federal", "Código Nacional de Procedimientos Penales"]
-            },
-            estatal: { 
-                "Constitución Local": ["Constitución Política del Estado"], 
-                "Códigos Locales": ["Código Civil Local"], 
-                "Leyes Estatales": ["Ley de Desarrollo Urbano"] 
-            },
-            internacional: { 
-                "Derechos Humanos": ["Convención Americana sobre DDHH (Pacto de San José)"], 
-                "Derecho Laboral / Social": ["Convenio 87 de la OIT (Libertad Sindical)"], 
-                "Comercio e Internacional Privado": ["T-MEC"] 
-            }
-        };
+const estadosMexico = ["Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua", "Ciudad de México", "Coahuila", "Colima", "Durango", "Estado de México", "Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas"].sort((a, b) => a.localeCompare(b));
 
-        let ambitoActual = 'federal'; let categoriaSeleccionada = ''; let estadoSeleccionado = ''; let leySeleccionada = '';
-        
-        const selectEstado = document.getElementById('select-estado'); 
-        const selectCategoria = document.getElementById('select-categoria'); 
-        const selectLey = document.getElementById('select-ley'); 
-        const wrapperEstados = document.getElementById('wrapper-estados'); 
-        const buscador = document.getElementById('buscador'); 
-        const contenedor = document.getElementById('contenedor-leyes'); 
-        const mensajeSinResultados = document.getElementById('sin-resultados');
+const categoriesPorAmbito = {
+    federal: ["Constitución", "Leyes Generales / Marco", "Leyes Nacionales", "Leyes Federales", "Códigos Federales"],
+    estatal: ["Constitución Local", "Códigos Locales", "Leyes Estatales"],
+    internacional: ["Derechos Humanos", "Derecho Laboral / Social", "Comercio e Internacional Privado"]
+};
 
-        function inicializarListas() { 
-            if(selectEstado) selectEstado.innerHTML = estadosMexico.map(e => `<option value="${e}">${e}</option>`).join(''); 
-            cambiarAmbito('federal');
-        }
-        
-        function cambiarAmbito(nuevoAmbito) {
-            ambitoActual = nuevoAmbito;
-            if (nuevoAmbito === 'estatal') { 
-                wrapperEstados.style.display = "flex"; 
-                estadoSeleccionado = selectEstado.value || estadosMexico[0]; 
-            } else { 
-                wrapperEstados.style.display = "none"; 
-                estadoSeleccionado = ''; 
-            }
-            const categorias = categoriesPorAmbito[nuevoAmbito];
-            selectCategoria.innerHTML = categorias.map(c => `<option value="${c}">${c}</option>`).join('');
-            seleccionarCategoria(selectCategoria.value);
-        }
-        
-        function seleccionarEstado(estado) { estadoSeleccionado = estado; actualizarPantalla(); }
-        function seleccionarCategoria(cat) { 
-            categoriaSeleccionada = cat; 
-            const leyes = catalogoLeyes[ambitoActual][cat] || []; 
-            selectLey.innerHTML = leyes.map(l => `<option value="${l}">${l}</option>`).join(''); 
-            seleccionarLey(selectLey.value); 
-        }
-        function seleccionarLey(ley) { leySeleccionada = ley; buscador.value = ""; actualizarPantalla(); }
-        
-        function resaltarTexto(t, p) { 
-            if (!p.trim()) return t; 
-            const exp = new RegExp(`(${p.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi'); 
-            return t.replace(exp, '<mark>$1</mark>'); 
-        }
-        
-        function copiarTextoArticulo(id, btn) { 
-            navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => { 
-                btn.innerHTML = "¡Copiado! ✓"; 
-                setTimeout(() => { btn.innerHTML = "Copiar Texto"; }, 1200); 
-            }); 
-        }
-        
-        function toggleJurisprudencia(id) { 
-            const b = document.getElementById(id); 
-            b.style.display = (b.style.display === "block") ? "none" : "block"; 
-        }
+const catalogoLeyes = {
+    federal: { 
+        "Constitución": ["Constitución Política (CPEUM)"], 
+        "Leyes Generales / Marco": ["Ley General de Víctimas"], 
+        "Leyes Nacionales": [], 
+        "Leyes Federales": ["Ley Federal del Trabajo"],
+        "Códigos Federales": ["Código Penal Federal", "Código Nacional de Procedimientos Penales"]
+    },
+    estatal: { 
+        "Constitución Local": ["Constitución Política del Estado"], 
+        "Códigos Locales": ["Código Civil Local"], 
+        "Leyes Estatales": ["Ley de Desarrollo Urbano"] 
+    },
+    internacional: { 
+        "Derechos Humanos": ["Convención Americana sobre DDHH (Pacto de San José)"], 
+        "Derecho Laboral / Social": ["Convenio 87 de la OIT (Libertad Sindical)"], 
+        "Comercio e Internacional Privado": ["T-MEC"] 
+    }
+};
 
-        buscador.addEventListener('input', actualizarPantalla);
+let ambitoActual = 'federal'; let categoriaSeleccionada = ''; let estadoSeleccionado = ''; let leySeleccionada = '';
 
-        function actualizarPantalla() {
-            contenedor.innerHTML = ""; 
-            const queryText = buscador.value.toLowerCase().trim();
-            
-            const filtrados = datosFinales.filter(art => {
-                return art.ambito === ambitoActual && 
-                       art.categoria === categoriaSeleccionada && 
-                       art.ley === leySeleccionada &&
-                       (!queryText || art.numero.toLowerCase().includes(queryText) || art.texto.toLowerCase().includes(queryText));
-            });
+const selectEstado = document.getElementById('select-estado'); 
+const selectCategoria = document.getElementById('select-categoria'); 
+const selectLey = document.getElementById('select-ley'); 
+const wrapperEstados = document.getElementById('wrapper-estados'); 
+const buscador = document.getElementById('buscador'); 
+const contenedor = document.getElementById('contenedor-leyes'); 
+const mensajeSinResultados = document.getElementById('sin-resultados');
 
-            if (filtrados.length === 0) {
-                mensajeSinResultados.style.display = "block";
-                return;
-            }
+// 2. FUNCIÓN DESCARGAR DATOS DESDE SUPABASE EN TIEMPO REAL
+async function descargarLeyesDesdeNube() {
+    console.log("Consultando leyes en la nube...");
+    // Le pedimos a Supabase todos los registros de la tabla "articulos"
+    const { data, error } = await supabase.from('articulos').select('*');
+    
+    if (error) {
+        console.error("Error al conectar con Supabase:", error.message);
+        return;
+    }
+    
+    // Guardamos los datos de la nube en nuestra variable de trabajo
+    datosFinales = data || [];
+    console.log(`Descarga exitosa. ${datosFinales.length} artículos disponibles.`);
+    actualizarPantalla();
+}
 
-            mensajeSinResultados.style.display = "none";
+function inicializarListas() { 
+    if(selectEstado) selectEstado.innerHTML = estadosMexico.map(e => `<option value="${e}">${e}</option>`).join(''); 
+    cambiarAmbito('federal');
+    
+    // Llamamos a la descarga en cuanto la página cargue
+    descargarLeyesDesdeNube();
+}
 
-            filtrados.forEach((art, idx) => {
-                const idUnico = `art-${idx}`;
-                const divArt = document.createElement('div');
-                divArt.className = 'articulo';
-                divArt.innerHTML = `
-                    <div class="art-meta">
-                        <span class="art-numero">${art.numero}</span>
-                        <div>
-                            <span class="badge badge-vigente">${art.estadoNorma}</span>
-                            <span class="badge badge-reforma">${art.ultimaReforma}</span>
-                        </div>
-                    </div>
-                    <p class="art-texto" id="texto-${idUnico}">${resaltarTexto(art.texto, queryText)}</p>
-                    <div class="actions">
-                        <button class="btn" onclick="copiarTextoArticulo('texto-${idUnico}', this)">Copiar Texto</button>
-                        <button class="btn btn-precedente" onclick="toggleJurisprudencia('prec-${idUnico}')">Ver Jurisprudencia</button>
-                    </div>
-                    <div class="bloque-precedente" id="prec-${idUnico}">
-                        <span class="prec-titulo">Precedente Relevante:</span>
-                        <span>${art.jurisprudencia}</span>
-                    </div>
-                `;
-                contenedor.appendChild(divArt);
-            });
-        }
+function cambiarAmbito(nuevoAmbito) {
+    ambitoActual = nuevoAmbito;
+    if (nuevoAmbito === 'estatal') { 
+        wrapperEstados.style.display = "flex"; 
+        estadoSeleccionado = selectEstado.value || estadosMexico[0]; 
+    } else { 
+        wrapperEstados.style.display = "none"; 
+        estadoSeleccionado = ''; 
+    }
+    const categorias = categoriesPorAmbito[nuevoAmbito];
+    selectCategoria.innerHTML = categorias.map(c => `<option value="${c}">${c}</option>`).join('');
+    seleccionarCategoria(selectCategoria.value);
+}
 
-        window.onload = inicializarListas;
+function seleccionarEstado(estado) { estadoSeleccionado = estado; actualizarPantalla(); }
+function seleccionarCategoria(cat) { 
+    categoriaSeleccionada = cat; 
+    const leyes = catalogoLeyes[ambitoActual][cat] || []; 
+    selectLey.innerHTML = leyes.map(l => `<option value="${l}">${l}</option>`).join(''); 
+    seleccionarLey(selectLey.value); 
+}
+function seleccionarLey(ley) { leySeleccionada = ley; buscador.value = ""; actualizarPantalla(); }
+
+function resaltarTexto(t, p) { 
+    if (!t) return "";
+    if (!p.trim()) return t; 
+    const exp = new RegExp(`(${p.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi'); 
+    return t.replace(exp, '<mark>$1</mark>'); 
+}
+
+function copiarTextoArticulo(id, btn) { 
+    navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => { 
+        btn.innerHTML = "¡Copiado! ✓"; 
+        setTimeout(() => { btn.innerHTML = "Copiar Texto"; }, 1200); 
+    }); 
+}
+
+function toggleJurisprudencia(id) { 
+    const b = document.getElementById(id); 
+    b.style.display = (b.style.display === "block") ? "none" : "block"; 
+}
+
+buscador.addEventListener('input', actualizarPantalla);
+
+function actualizarPantalla() {
+    contenedor.innerHTML = ""; 
+    const queryText = buscador.value.toLowerCase().trim();
+    
+    // Filtramos los datos que bajaron de la nube
+    const filtrados = datosFinales.filter(art => {
+        return art.ambito === ambitoActual && 
+               art.categoria === categoriaSeleccionada && 
+               art.ley === leySeleccionada &&
+               (!queryText || art.numero.toLowerCase().includes(queryText) || art.texto.toLowerCase().includes(queryText));
+    });
+
+    if (filtrados.length === 0) {
+        mensajeSinResultados.style.display = "block";
+        return;
+    }
+
+    mensajeSinResultados.style.display = "none";
+
+    filtrados.forEach((art, idx) => {
+        const idUnico = `art-${idx}`;
+        const divArt = document.createElement('div');
+        divArt.className = 'articulo';
+        divArt.innerHTML = `
+            <div class="art-meta">
+                <span class="art-numero">${art.numero}</span>
+                <div>
+                    <span class="badge badge-vigente">${art.estadoNorma}</span>
+                    <span class="badge badge-reforma">${art.ultimaReforma}</span>
+                </div>
+            </div>
+            <p class="art-texto" id="texto-${idUnico}">${resaltarTexto(art.texto, queryText)}</p>
+            <div class="actions">
+                <button class="btn" onclick="copiarTextoArticulo('texto-${idUnico}', this)">Copiar Texto</button>
+                <button class="btn btn-precedente" onclick="toggleJurisprudencia('prec-${idUnico}')">Ver Jurisprudencia</button>
+            </div>
+            <div class="bloque-precedente" id="prec-${idUnico}">
+                <span class="prec-titulo">Precedente Relevante:</span>
+                <span>${art.jurisprudencia}</span>
+            </div>
+        `;
+        contenedor.appendChild(divArt);
+    });
+}
+
+window.onload = inicializarListas;
     </script>
 </body>
 </html>
